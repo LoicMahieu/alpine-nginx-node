@@ -5,8 +5,8 @@ MAINTAINER Loïc Mahieu <mahieuloic@gmail.com>
 #### Node.js
 ENV NODE_VERSION v4.1.1
 RUN apk add --update curl make gcc g++ python linux-headers paxctl libgcc libstdc++ && \
-  curl -sSL https://nodejs.org/dist/${VERSION}/node-${VERSION}.tar.gz | tar -xz && \
-  cd /node-${VERSION} && \
+  curl -sSL https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}.tar.gz | tar -xz && \
+  cd /node-${NODE_VERSION} && \
   ./configure --prefix=/usr ${CONFIG_FLAGS} && \
   make -j$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
   make install && \
@@ -17,7 +17,7 @@ RUN apk add --update curl make gcc g++ python linux-headers paxctl libgcc libstd
     find /usr/lib/node_modules/npm -name test -o -name .bin -type d | xargs rm -rf; \
   fi && \
   apk del curl make gcc g++ python linux-headers paxctl ${DEL_PKGS} && \
-  rm -rf /etc/ssl /node-${VERSION} ${RM_DIRS} \
+  rm -rf /etc/ssl /node-${NODE_VERSION} ${RM_DIRS} \
     /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp \
     /usr/lib/node_modules/npm/man /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html
 
