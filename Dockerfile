@@ -20,6 +20,16 @@ RUN apk add --update curl make gcc g++ python linux-headers paxctl libgcc libstd
   rm -rf /etc/ssl /node-${NODE_VERSION} ${RM_DIRS} \
     /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp \
     /usr/lib/node_modules/npm/man /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html
+RUN echo "\
+    rm -rf /tmp/* \
+           /root/.npm \
+           /usr/bin/npm \
+           /usr/bin/node \
+           /usr/include/node \
+           /usr/lib/node_modules \
+           /usr/share/man \
+           /usr/share/doc \
+  " > /usr/bin/uninstall_node && chmod +x /usr/bin/uninstall_node
 
 #### NGINX
 ENV NGINX_VERSION nginx-1.9.5
