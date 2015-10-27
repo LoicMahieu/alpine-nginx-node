@@ -7,7 +7,7 @@ ENV NODE_VERSION v4.2.1
 RUN apk add --update curl make gcc g++ python linux-headers paxctl libgcc libstdc++ && \
   curl -sSL https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}.tar.gz | tar -xz && \
   cd /node-${NODE_VERSION} && \
-  ./configure --prefix=/usr ${CONFIG_FLAGS} && \
+  ./configure --prefix=/usr && \
   make -j$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
   make install && \
   paxctl -cm /usr/bin/node && \
@@ -16,8 +16,8 @@ RUN apk add --update curl make gcc g++ python linux-headers paxctl libgcc libstd
     npm install -g npm@2 && \
     find /usr/lib/node_modules/npm -name test -o -name .bin -type d | xargs rm -rf; \
   fi && \
-  apk del curl make gcc g++ python linux-headers paxctl ${DEL_PKGS} && \
-  rm -rf /etc/ssl /node-${NODE_VERSION} ${RM_DIRS} \
+  apk del curl make gcc g++ python linux-headers paxctl && \
+  rm -rf /etc/ssl /node-${NODE_VERSION} \
     /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp \
     /usr/lib/node_modules/npm/man /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html && \
   echo "\
@@ -57,6 +57,3 @@ RUN apk --update add openssl-dev pcre-dev zlib-dev wget build-base && \
 
 VOLUME ["/var/log/nginx"]
 CMD ["nginx", "-g", "daemon off;"]
-
-# Clean
-RUN rm -rf /scripts
