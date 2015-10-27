@@ -49,13 +49,11 @@ RUN apk --update add openssl-dev pcre-dev zlib-dev wget build-base && \
         --sbin-path=/usr/local/sbin/nginx && \
     make && \
     make install && \
-    apk del build-base && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log && \
+    apk del wget build-base && \
     rm -rf /tmp/src && \
     rm -rf /var/cache/apk/*
-
-# forward request and error logs to docker log collector
-RUN ln -sf /dev/stdout /var/log/nginx/access.log
-RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 VOLUME ["/var/log/nginx"]
 CMD ["nginx", "-g", "daemon off;"]
