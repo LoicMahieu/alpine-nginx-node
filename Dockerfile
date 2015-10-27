@@ -3,7 +3,7 @@ FROM alpine:3.2
 MAINTAINER Loïc Mahieu <mahieuloic@gmail.com>
 
 #### Node.js
-ENV NODE_VERSION v4.1.1
+ENV NODE_VERSION v4.2.1
 RUN apk add --update curl make gcc g++ python linux-headers paxctl libgcc libstdc++ && \
   curl -sSL https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}.tar.gz | tar -xz && \
   cd /node-${NODE_VERSION} && \
